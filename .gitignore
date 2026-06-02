@@ -1,0 +1,36 @@
+# ─── Ortam dosyaları ──────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ─── Symfony Backend ──────────────────────────────────────────────────────
+backend/vendor/
+backend/var/
+backend/.env.local
+backend/.env.*.local
+backend/public/bundles/
+!backend/.gitkeep
+
+# ─── Angular Frontend ─────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.env
+!frontend/.gitkeep
+
+# ─── IDE & OS ─────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Docker volumes (host-side data) ──────────────────────────────────────
+docker/postgres/data/
+docker/redis/data/
+
+# ─── Loglar ───────────────────────────────────────────────────────────────
+*.log
+logs/

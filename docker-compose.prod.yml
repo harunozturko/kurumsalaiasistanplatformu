@@ -1,0 +1,41 @@
+# ─── Production override dosyası ──────────────────────────────────────────
+# Kullanım: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+name: kurumsal-ai-asistan-prod
+
+services:
+  php:
+    build:
+      target: production
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: "0"
+    restart: always
+
+  nginx:
+    restart: always
+    volumes:
+      - ./backend/public:/var/www/html/public:ro
+      - ./frontend/dist/kurumsal-frontend/browser:/var/www/angular:ro
+      - ./docker/nginx/conf.d/prod.conf:/etc/nginx/conf.d/default.conf:ro
+
+  # Production'da Angular dev server kullanılmaz — dist dosyaları Nginx'ten servis edilir
+  angular:
+    profiles:
+      - dev-only
+
+  mailhog:
+    profiles:
+      - dev-only
+
+  pgadmin:
+    profiles:
+      - dev-only
+
+  postgres:
+    restart: always
+    ports: []  # Production'da PostgreSQL portu dışarı açılmaz
+
+  redis:
+    restart: always
+    ports: []  # Production'da Redis portu dışarı açılmaz
