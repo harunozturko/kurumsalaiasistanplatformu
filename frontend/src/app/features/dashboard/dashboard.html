@@ -1,0 +1,35 @@
+<div class="dashboard">
+  <header class="dashboard__bar">
+    <span class="dashboard__brand">Kurumsal AI Asistan</span>
+    <button class="dashboard__logout" (click)="logout()">Çıkış Yap</button>
+  </header>
+
+  <main class="dashboard__content">
+    @if (loading()) {
+      <p class="dashboard__hint">Yükleniyor…</p>
+    } @else if (errorMessage()) {
+      <p class="dashboard__hint dashboard__hint--error">{{ errorMessage() }}</p>
+    } @else if (user(); as u) {
+      <section class="profile-card">
+        <div class="profile-card__avatar">{{ u.email[0].toUpperCase() }}</div>
+        <h1 class="profile-card__title">Hoş geldiniz 👋</h1>
+        <p class="profile-card__subtitle">Korumalı panele başarıyla eriştiniz.</p>
+
+        <dl class="profile-card__details">
+          <div class="profile-card__row">
+            <dt>Kullanıcı No</dt>
+            <dd>{{ u.id }}</dd>
+          </div>
+          <div class="profile-card__row">
+            <dt>E-posta</dt>
+            <dd>{{ u.email }}</dd>
+          </div>
+          <div class="profile-card__row">
+            <dt>Roller</dt>
+            <dd>{{ u.roles.join(', ') }}</dd>
+          </div>
+        </dl>
+      </section>
+    }
+  </main>
+</div>

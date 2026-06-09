@@ -1,0 +1,52 @@
+<div class="auth-page">
+  <div class="card">
+    <h1 class="card__title">Giriş Yap</h1>
+    <p class="card__subtitle">Hesabınıza erişmek için bilgilerinizi girin.</p>
+
+    @if (errorMessage()) {
+      <div class="alert--error">{{ errorMessage() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="field">
+        <label class="field__label" for="email">E-posta</label>
+        <input
+          id="email"
+          type="email"
+          class="field__input"
+          [class.is-invalid]="form.controls.email.touched && form.controls.email.invalid"
+          formControlName="email"
+          placeholder="ornek@kurumsal.com"
+          autocomplete="email"
+        />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <span class="field__error">Geçerli bir e-posta giriniz.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="password">Parola</label>
+        <input
+          id="password"
+          type="password"
+          class="field__input"
+          [class.is-invalid]="form.controls.password.touched && form.controls.password.invalid"
+          formControlName="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <span class="field__error">Parola zorunludur.</span>
+        }
+      </div>
+
+      <button type="submit" class="btn btn--primary" [disabled]="loading()">
+        {{ loading() ? 'Giriş yapılıyor…' : 'Giriş Yap' }}
+      </button>
+    </form>
+
+    <p class="auth-switch">
+      Hesabınız yok mu? <a routerLink="/register">Kayıt olun</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="auth-page">
+  <div class="card">
+    <h1 class="card__title">Kayıt Ol</h1>
+    <p class="card__subtitle">Yeni bir hesap oluşturmak için bilgilerinizi girin.</p>
+
+    @if (errorMessage()) {
+      <div class="alert--error">{{ errorMessage() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="field">
+        <label class="field__label" for="email">E-posta</label>
+        <input
+          id="email"
+          type="email"
+          class="field__input"
+          [class.is-invalid]="form.controls.email.touched && form.controls.email.invalid"
+          formControlName="email"
+          placeholder="ornek@kurumsal.com"
+          autocomplete="email"
+        />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <span class="field__error">Geçerli bir e-posta giriniz.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="password">Parola</label>
+        <input
+          id="password"
+          type="password"
+          class="field__input"
+          [class.is-invalid]="form.controls.password.touched && form.controls.password.invalid"
+          formControlName="password"
+          placeholder="En az 8 karakter"
+          autocomplete="new-password"
+        />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <span class="field__error">Parola en az 8 karakter olmalıdır.</span>
+        }
+      </div>
+
+      <button type="submit" class="btn btn--primary" [disabled]="loading()">
+        {{ loading() ? 'Kayıt yapılıyor…' : 'Kayıt Ol' }}
+      </button>
+    </form>
+
+    <p class="auth-switch">
+      Zaten hesabınız var mı? <a routerLink="/login">Giriş yapın</a>
+    </p>
+  </div>
+</div>

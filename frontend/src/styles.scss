@@ -1,1 +1,161 @@
-/* You can add global styles to this file, and also import other style files */
+/* ───────────────────────────────────────────────────────────────────────────
+   Global stiller ve basit tasarım belirteçleri (design tokens).
+   Login ve Register sayfaları aynı görünümü paylaştığı için ortak sınıfları
+   burada tek yerde tanımlıyoruz (tekrar yok).
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --color-primary: #4f46e5;
+  --color-primary-hover: #4338ca;
+  --color-bg: #f1f5f9;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-muted: #64748b;
+  --color-border: #e2e8f0;
+  --color-error: #dc2626;
+  --radius: 12px;
+  --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+  color: var(--color-text);
+  background: linear-gradient(160deg, #eef2ff 0%, var(--color-bg) 100%);
+}
+
+/* ── Ortalanmış sayfa düzeni ──────────────────────────────────────────────── */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* ── Kart ─────────────────────────────────────────────────────────────────── */
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+}
+
+.card__title {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.card__subtitle {
+  margin: 0 0 1.5rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+/* ── Form alanları ────────────────────────────────────────────────────────── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.field__label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.field__input {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field__input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.field__input.is-invalid {
+  border-color: var(--color-error);
+}
+
+.field__error {
+  font-size: 0.78rem;
+  color: var(--color-error);
+}
+
+/* ── Buton ────────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Genel hata kutusu (örn. sunucudan dönen mesaj) ───────────────────────── */
+.alert--error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: var(--color-error);
+  padding: 0.65rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Sayfa altı geçiş linki ───────────────────────────────────────────────── */
+.auth-switch {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--color-muted);
+}
+
+.auth-switch a {
+  color: var(--color-primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}

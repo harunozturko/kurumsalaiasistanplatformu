@@ -10,6 +10,10 @@ services:
     restart: unless-stopped
     volumes:
       - ./backend:/var/www/html
+      # vendor ve var, Windows/NTFS yerine hızlı Linux (ext4) named volume'da tutulur;
+      # böylece her istekte okunan bu klasörler yavaş 9p köprüsünden geçmez.
+      - vendor_data:/var/www/html/vendor
+      - var_data:/var/www/html/var
       - ./docker/php/php.ini:/usr/local/etc/php/conf.d/99-custom.ini:ro
     environment:
       APP_ENV: ${APP_ENV:-dev}
@@ -18,6 +22,8 @@ services:
       REDIS_URL: "redis://:${REDIS_PASSWORD:-secret}@redis:6379"
       MAILER_DSN: "smtp://mailhog:1025"
       CORS_ALLOW_ORIGIN: "^https?://(localhost|127\\.0\\.0\\.1)(:[0-9]+)?$"
+      JWT_SECRET: ${JWT_SECRET:-dev_jwt_secret_change_me_in_production_0123456789abcdef}
+      JWT_TTL: ${JWT_TTL:-3600}
     depends_on:
       postgres:
         condition: service_healthy
@@ -142,6 +148,8 @@ volumes:
   pgadmin_data:
   node_modules:
   nginx_logs:
+  vendor_data:
+  var_data:
 
 networks:
   app_network:

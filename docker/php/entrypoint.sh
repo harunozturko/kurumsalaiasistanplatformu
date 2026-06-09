@@ -31,7 +31,7 @@ if [ ! -f "/var/www/html/composer.json" ]; then
 fi
 
 # ─── Composer bağımlılıkları ───────────────────────────────────────────────
-if [ ! -d "/var/www/html/vendor" ]; then
+if [ ! -f "/var/www/html/vendor/autoload.php" ]; then
     echo ""
     echo "==> Composer bağımlılıkları yükleniyor..."
     cd /var/www/html && composer install --no-interaction --prefer-dist

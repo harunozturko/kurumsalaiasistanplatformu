@@ -1,31 +1,39 @@
 security:
+    # Parola hash algoritması. 'auto' = mevcut en güçlü algoritma (bcrypt/argon2).
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    # Kullanıcıların nereden yükleneceği. Artık bellekteki sahte kullanıcılar değil,
+    # User entity'si veritabanından e-posta ile yüklenir.
     providers:
-        users_in_memory: { memory: null }
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
 
     firewalls:
         dev:
-            # Ensure dev tools and static assets are always allowed
+            # Geliştirici araçları ve statik dosyalar her zaman serbest.
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
-        main:
-            lazy: true
-            provider: users_in_memory
 
-            # Activate different ways to authenticate:
-            # https://symfony.com/doc/current/security.html#the-firewall
+        api:
+            pattern: ^/api
+            stateless: true            # Oturum (session) tutmayız; her istek token taşır.
+            provider: app_user_provider
+            entry_point: App\Security\JwtAuthenticator
+            custom_authenticators:
+                - App\Security\JwtAuthenticator
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Note: Only the *first* matching rule is applied
+    # Sadece *ilk* eşleşen kural uygulanır (sıra önemlidir).
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # Public uç noktalar — token gerektirmez:
+        - { path: ^/api/health,   roles: PUBLIC_ACCESS }
+        - { path: ^/api/register, roles: PUBLIC_ACCESS }
+        - { path: ^/api/login,    roles: PUBLIC_ACCESS }
+        # Korumalı uç noktalar — geçerli JWT (ROLE_USER) gerekir:
+        - { path: ^/api/me,       roles: ROLE_USER }
 
 when@test:
     security:
